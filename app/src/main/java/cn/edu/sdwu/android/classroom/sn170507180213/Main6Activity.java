@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParser;
+
 public class Main6Activity extends AppCompatActivity {
 
     @Override
@@ -52,6 +54,23 @@ public class Main6Activity extends AppCompatActivity {
         //注册上下文菜单
         LinearLayout linearLayout=(LinearLayout)findViewById(R.id.ch5_1_ll);
         registerForContextMenu(linearLayout);
+
+        XmlPullParser xmlPullParser=resources.getXml(R.xml.words);
+        try {
+            while (xmlPullParser.getEventType()!=XmlPullParser.END_DOCUMENT){
+                if (xmlPullParser.getEventType()==XmlPullParser.START_TAG){
+                    //判断一下是否是word元素
+                    if (xmlPullParser.getName().equals("word")){
+                        String word=xmlPullParser.getAttributeValue(0);
+                        Log.i(Main6Activity.class.toString(),word);
+                    }
+                }
+                xmlPullParser.next();
+            }
+        }catch (Exception e){
+            Log.e(Main6Activity.class.toString(),e.toString());
+        }
+
     }
 
     @Override
